@@ -412,10 +412,12 @@ impl Library {
                                 let mut field_name = String::new();
                                 for attr in &attributes {
                                     match attr.name.local_name.as_ref() {
-                                        "name" => field_name = attr.value.clone(),
+                                        "name" => {
+                                            field_name = attr.value.clone();
+                                            break;
+                                        },
                                         _ => {},
                                     }
-                                    break;
                                 }
 
                                 u = Union {
@@ -595,10 +597,12 @@ impl Library {
                             let mut field_name = String::new();
                             for attr in &attributes {
                                 match attr.name.local_name.as_ref() {
-                                    "name" => field_name = attr.value.clone(),
+                                    "name" => {
+                                        field_name = attr.value.clone();
+                                        break;
+                                    },
                                     _ => {},
                                 }
-                                break;
                             }
 
                             r = Record {
