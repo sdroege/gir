@@ -412,23 +412,24 @@ impl Library {
                                 let mut field_name = String::new();
                                 for attr in &attributes {
                                     match attr.name.local_name.as_ref() {
-                                        "name" => field_name = attr.value.clone(),
+                                        "name" => {
+                                            field_name = attr.value.clone();
+                                            break;
+                                        },
                                         _ => {},
                                     }
                                 }
 
                                 u = Union {
                                     name: format!(
-                                        "{}{}_{}{}",
-                                        parent_name_prefix.unwrap_or(""),
-                                        record_name,
+                                        "{}_{}{}",
+                                        parent_name_prefix.unwrap_or(record_name),
                                         field_name,
                                         union_count
                                     ),
                                     c_type: Some(format!(
-                                        "{}{}_{}{}",
-                                        parent_ctype_prefix.unwrap_or(""),
-                                        c_type,
+                                        "{}_{}{}",
+                                        parent_ctype_prefix.unwrap_or(c_type),
                                         field_name,
                                         union_count
                                     )),
@@ -596,7 +597,10 @@ impl Library {
                             let mut field_name = String::new();
                             for attr in &attributes {
                                 match attr.name.local_name.as_ref() {
-                                    "name" => field_name = attr.value.clone(),
+                                    "name" => {
+                                        field_name = attr.value.clone();
+                                        break;
+                                    },
                                     _ => {},
                                 }
                             }
@@ -604,13 +608,13 @@ impl Library {
                             r = Record {
                                 name: format!(
                                     "{}_{}{}",
-                                    parent_name_prefix.unwrap_or(""),
+                                    parent_name_prefix.unwrap_or(union_name),
                                     field_name,
                                     struct_count
                                 ),
                                 c_type: format!(
                                     "{}_{}{}",
-                                    parent_ctype_prefix.unwrap_or(""),
+                                    parent_ctype_prefix.unwrap_or(c_type),
                                     field_name,
                                     struct_count
                                 ),
