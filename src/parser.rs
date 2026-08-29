@@ -40,7 +40,7 @@ impl Library {
             self.read_repository(dirs, &mut repo, libs)?;
             return Ok(());
         }
-        Err(format!("Couldn't find `{}`...", &libs[libs.len() - 1]))
+        Err(format!("Couldn't find `{}`...", libs[libs.len() - 1]))
     }
 
     fn read_repository<P: AsRef<Path>>(
