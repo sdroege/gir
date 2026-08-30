@@ -58,9 +58,14 @@ pub fn generate(w: &mut dyn Write, env: &Env, analysis: &analysis::object::Info)
                     // We should only compare the versions if they come from the
                     // same namespace.
                     let is_same_lib = object.type_id.ns_id == analysis.base.type_id.ns_id;
-                    if (parent_version > analysis.version || !is_same_lib)
-                        && parent_version > namespace_min_version
-                    {
+                    // For different namespaces, compare the parent version against
+                    // the external library's minimum version instead.
+                    let needs_guard = if is_same_lib {
+                        parent_version > analysis.version && parent_version > namespace_min_version
+                    } else {
+                        namespace_min_version.is_some_and(|min| parent_version > Some(min))
+                    };
+                    if needs_guard {
                         ns_versions
                             .entry(object.type_id.ns_id)
                             .or_default()
